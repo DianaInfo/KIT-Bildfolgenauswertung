@@ -1,0 +1,697 @@
+\documentclass{report}
+
+\usepackage{color}
+\usepackage[margin=1in]{geometry}
+\usepackage{soul}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\newcommand{\secret}[1]{}
+% Folgende Zeile auskommentieren, wenn Antworten nicht gewünscht sind.
+\renewcommand{\secret}[1]{#1}
+
+\newcommand{\com}[2][blue]{\textcolor{#1}{#2}}
+\newcommand{\tab}{\hspace*{5mm}}
+\newcommand{\todo}[2][red]{\textcolor{#1}{TODO: #2}}
+
+\usepackage{contour}
+\usepackage{ulem}
+
+\renewcommand{\ULdepth}{1.5pt}
+\contourlength{0.8pt}
+
+\newcommand{\myuline}[1]{%
+	\uline{\phantom{#1}}%
+	\llap{\contour{white}{#1}}%
+}
+
+%opening
+\title{Titel: Zusammenfassung Semester}
+%\author{Diana Burkart}
+
+\begin{document}
+	
+	\maketitle
+	\newpage
+	
+	\tableofcontents
+	\newpage
+	
+	\chapter{Prüfung}
+	
+	\section{Informationen}
+	
+	\begin{itemize}
+		\item Fragen: Michael Arens, michael.arens@iosb.fraunhofer.de
+		\item Klassische Ansätze $\rightarrow$ kein DL
+		\item Mündliche Prüfung
+		\item Termine nach Absprache jederzeit (ungefähren Zeitraum angeben)
+		\item gerne online, auch vor Ort in Ettlingen
+		
+		\item Passwort ILIAS: !bild2
+		\item Vorlesungswebsite:
+		\newline Zugangsname: bildfolge,
+		\newline Passwort: !bild2
+	\end{itemize}
+	\newpage
+
+	\section{Prüfungsfragen:}
+	
+	\begin{itemize}
+		\item Was ist Bildfolgenauswertung? Was kann man sich unter Bildfolgenauswertung vorstellen?
+		\item 
+		\item 
+		\item 
+		\item 
+	\end{itemize}
+	
+	\chapter{Themen}
+	
+	\section{Einführung und Überblick}
+	
+	\begin{itemize}
+		\item Bildfolgenauswertung
+		\begin{itemize}
+			\item Automatische Ableitung inhaltsbezogener Aussagen über die in einer Bildfolge abgebildete Szene und deren zeitliche Entwicklung. Die abgeleiteten Aussagen können einem menschlichen Benutzer bereitgestellt werden oder in einem technischen System zur Auslösung von Aktionen genutzt werden
+			\item Bildfolge: in bestimmtem zeitlichem Takt erzeugte Projektion einer (realen) Szene
+			\item Analyse: automatische, rechnergestützte Analyse
+			\item Analyse einer Bildfolge: Gegenstand der Analyse ist abgebildete Szene und deren zeitliche Entwicklung, nicht Bildfolge selbst.
+			\item Zweck: Art \& Umfang der Aussagen hängen vom Zweck ab
+		\end{itemize}
+	
+		\item Klassische Verfahren vs. DL
+		\begin{itemize}
+			\item Klassische Verfahren sind relevant für bestimmte Anwendungsfälle
+			\item Klassische Verfahren ist Lösungsorientiert (analytisches Vorgehen)
+		\end{itemize}
+	
+		\item Bildrepräsentation
+		\begin{itemize}
+			\item Pixel (2D-Feld)
+			\item Wertebereich (grau, RGB -> primär technisch bedingt)
+			\item Koordinatensysteme: Start oben rechts gehen nach unten\newline
+			Fernseher: Darstellung zeilenweise von oben rechts $\rightarrow$ technischer Grund (historisch)
+		\end{itemize}
+		
+		\item Bildfolge
+		\begin{itemize}
+			\item Bildfolge ist 3D-Feld von Pixeln g(x,y,t)
+		\end{itemize}
+		
+		\item Pin-Hole-Kamera-Modell
+		\begin{itemize}
+			\item Zu Perfekt, Fehlerquellen aus der Optik werden nicht beachtet
+			\item Linsen sind nicht so perfekt
+			\item Abbildungsfläche ist nicht immer ganz gerade $\rightarrow$ Verzerrungen
+			\item Kisseneffekt
+		\end{itemize}
+		
+		\item Aufzeichnung Bildfolge
+		\begin{itemize}
+			\item Zeilenverschränkung (interlacing): gerade/ ungerade Zeilen abwechselnd übertragen\newline
+			$\rightarrow$ wird nicht mehr so oft verwendet
+			\item Global- vs. Rolling-Shutter $\rightarrow$ wichtige Global-Shutter für Kamera, um Bewegung einzufangen\newline
+			Günstiger nur Teile des Bildes auszulesen immer und dann die Bereiche nacheinander durchzugehen (Rolling-Shutter), Segmentweise neuer Zeitpunkt, welche betrachtet wird\newline
+			Alles auf einem (Global-Shutter)
+			\item Kompression
+			\begin{itemize}
+				\item Versuchen die Schwächen des menschlichen Auges zu nutzen und Ort-/Zeitfrequenz herunterreduzieren
+			\end{itemize}
+		\end{itemize}
+	
+		\item Zusammenfassung
+		\begin{itemize}
+			\item Was ist Bildfolgenauswertung?
+			\item Wie werden Bilder/Bildfolgen repräsentiert?
+			\item Wie werden Bildfolgen erfaßt?
+			\item Welche Probleme treten dabei auf und warum?
+		\end{itemize}
+	
+		\item Überblick
+		\begin{enumerate}
+			\item Einführung
+			\begin{itemize}
+				\item Was ist Bildfolgenauswertung?
+				\item Wie werden Bilder/Bildfolgen repräsentiert?
+				\item Wie werden Bildfolgen erfaßt?
+				\item Welche Probleme treten dabei auf und warum?
+			\end{itemize}
+		
+			\item Änderungsbasierte Bewegungsdetektion
+			\begin{itemize}
+				\item Wie lassen sich Änderungen in einer Bildfolge detektieren?
+				\item Welche Verfahrensgruppen gibt es hierzu?
+				\item Was ist der Unterschied zwischen Änderungen (im Bild) und Bewegungen (in der Szene)?
+				\item Funktioniert das auch bei bewegter
+				Kamera?
+				\item Wie lassen sich die Ergebnisse der
+				verschiedenen Verfahren bewerten und
+				vergleichen?
+			\end{itemize}
+			
+			\item Bewegungsbestimmung I (Korrespondenzverfahren)
+			\begin{itemize}
+				\item Wie lassen sich Korrespondenzen von Bild zu Bild bestimmen?
+				\item Welche Punkte im Bild lassen eine Korrespondenzbestimmung zu?
+				\item Welche Rolle spielt der zeitliche Abstand zweier Bilder für die Korrespondenzbestimmung?
+			\end{itemize}
+		
+			\item Bewegungsbestimmung II (Optischer Fluß)
+			\begin{itemize}
+				\item Welche Ansätze zur Bestimmung des OF
+				gibt es?
+				\item Worin besteht das Blendenproblem?
+				\item Wozu braucht man OF, wenn man doch
+				schon Korrespondenzen von Bild zu Bild
+				bestimmen kann?
+			\end{itemize}
+		
+			\item Bildkachelung, Mosaikbildung
+			\begin{itemize}
+				\item Wie lassen sich aus Bildern einer Bildfolge Bildmosaike/Panoramen erstellen?
+				\item Was ist mit den Autos im obigen Beispiel passiert?
+				\item Gibt es auch Panorama-Videos?
+			\end{itemize}
+		
+			\item Struktur aus Bewegung
+			\begin{itemize}
+				\item Wie funktioniert Structure-from-Motion im Prinzip?
+				\item Was ist der Unterschied zwischen SfM und SLAM?
+			\end{itemize}
+		
+			\item Objektdetektion (Bewegung vs. Struktur)
+			\begin{itemize}
+				\item Wie funktioniert eine bewegungsbasierte Objektdetektion?
+				\item Wie funktioniert eine ansichtenbasierte Objektdetektion?
+				\item Welche Vor- und Nachteile haben beide Ansätze?
+			\end{itemize}
+		
+			\item Objektverfolgung I - III
+			\begin{itemize}
+				\item Sollte man Objekte einfach in jedem Bild
+				detektieren und als Spur die Verbindung aller
+				Detektionsorte ansehen
+				(tracking-by-detection)?
+				\item Kann eine Detektion in einem Bild von der
+				Detektion im letzten Bild profitieren?
+				(detection-by-tracking)?
+				\item Welche Vor- und Nachteile haben die Ansätze?
+				\item Was kann man während der Verfolgung über
+				das verfolgte Objekt lernen?
+			\end{itemize}
+		
+			\item Von 2D-Spuren zu 3D-Bewegungen
+			\begin{itemize}
+				\item Wie gelangt man von 2D-Spuren zu 3D-Bewegungen?
+			\end{itemize}
+		
+			\item Verbegrifflichung, Aktionserkennung
+			\begin{itemize}
+				\item Wie lassen sich quantitative Bildauswertungsergebnisse mit Begriffen assoziieren?
+				\item Wie funktioniert die Erkennung von Aktionen?
+				\item Welchen Vorteil hat die Verbegrifflichung?
+			\end{itemize}
+		
+			\item Verhaltensbasierte Bewegungsprädiktion
+			\begin{itemize}
+				\item Wie lassen sich Erwartungen, die man begrifflich formulieren kann, zur besseren
+				Auswertung von Bildfolgen nutzen?
+				\item Oder: Wenn ein Mensch sitzt, kann er dann im nächsten Moment rennen, oder fehlt
+				da nicht was?
+			\end{itemize}
+		
+		\end{enumerate}
+		
+		
+	\end{itemize}
+	\newpage
+
+	\section{Änderungsbasierte Bewegungsdetektion}
+	
+	\begin{itemize}
+		\item Kamera können nur Änderungen in Helligkeit / Farbwert in bestimmter Blickrichtung feststellen $\rightarrow$ keine Bewegung (physisch)
+		\item Bildfolgen liefern Informationen über die zeitliche Veränderungen einer beobachteten Szene:
+		\begin{itemize}
+			\item Langfristig: Change Detection
+			\newline z.B. Luftbild von 1995 zu heute, Änderungen von Hausbebauung.
+			\item Kurzfristig: Motion Detection
+		\end{itemize}
+		
+		\item Warum Bewegung erkennen?
+		\newline Bewegungsmelder
+		\newline Aufmerksamkeitsoperator für weitere Verfahren (Interessante Punkte bewegen sich)
+		\newline $\rightarrow$ Aufwendige Verfahren für Erkennung nur an Stellen, welche sich bewegen
+		
+		\item Welche Verfahren(sgruppen) gibt es?
+		\item Welches Verfahren ist für welchen Zweck geeignet?
+		\item Will ich Änderungen detektieren oder Bewegungen?
+		\item Kann ich die verschiedenen Verfahren (relativ) bewerten?
+		
+		\item 1. Verfahrensidee: Differenz zu festem Referenzbild
+		\begin{itemize}
+			\item Hintergrundbild $B$
+			\item aktuelles Bild $g$
+			\item Schwellenwert $T$ ($\rightarrow$ Rauschen der Kamera, daher nicht als Schwellenwert 0)
+			\item $|g(x,y,t) - B(x,y)| > T$ $\rightarrow$ Bewegung
+			\item Probleme:
+			\begin{itemize}
+				\item Woher stammt das Hintergrundbild?
+				\item Was passiert bei
+				\newline Beleuchtungsänderungen (Tag/Nacht, Schatten),
+				\newline Hinzukommenden/ Verschwindenden Hintergrundobjekten (geparktes Auto),
+				\newline Ständig bewegten Hintergrundobjekten (Bäume, Blinklichter, Wasserwellen…..)
+				\item Das Hintergrundbild B sollte \textbf{aktuell} sein
+			\end{itemize}
+			
+		\end{itemize}
+	
+		\item 2. Verfahrensidee: Differenz zu letztem Bild
+		\begin{itemize}
+			\item $B(x, y, t) = g(x, y, t-1)$
+			\item $|g(x, y, t) - B(x, y, t) > T$ $\rightarrow$ Bewegung
+			\item Probleme:
+			\begin{itemize}
+				\item Welcher Schwellwert soll gewählt werden?
+				\item Ständige Änderungen (Bäume) sind immer noch da.
+				\item Objekte erscheinen lediglich als Ränder
+				\newline dort, wo Hintergrund verdeckt wird
+				\newline dort, wo Hintergrund aufgedeckt wird
+				\newline dort, wo ein Objekt genügend Struktur aufweist
+				\item[$\rightarrow$] Ein Hintergrundbild B sollte erstellt werden, das sowohl aktuell als auch längerfristig stabil ist.
+			\end{itemize}
+		\end{itemize}
+	
+		\item 3. Verfahrensidee: Differenz zu gleitendem Mittelwertbild
+		\begin{itemize}
+			\item Autos ziehen Schlieren durchs Bild $\rightarrow$ Autos fließen in gleitendes Hintergrundbild mit ein
+			\item Objekte werden vollständig markiert
+			\item Ständige Änderungen bleiben
+			\item Schwellenwerproblem bleibt
+			\item Lernrate bestimmt wo man sich zwischen den ersten beiden Verfahren befindet:
+			\newline 0 $\rightarrow$ erstes Bild als Hintergrundbild
+			\newline 1 $\rightarrow$ nur letztes Bild als Hintergrundbild
+		\end{itemize}
+		
+		\item Verfahrensideen
+		\begin{itemize}
+			\item Schwellenwert für alle Pixel?
+			\begin{itemize}
+				\item Verschiedene Pixel schwanken unterschiedliche stark in ihrem Grauwert
+				\item Entsprechend sollten jeweils andere Abweichungen als Änderung detektiert werden
+				\item unterschiedliche, adaptive Schwellen sind angebracht
+				\newline
+				\item Abstand zwischen den Spitzen in Histogramm (Schwellenwert T bestimmt Erkennungsweite)
+				\item adaptive Schwellenwerte für jede Szene und jeden Pixel
+			\end{itemize}
+		\end{itemize}
+	
+		\item Modellierung jedes Pixels durch Gauß-Verteilung
+		\begin{itemize}
+			\item Annahme: jeder Pixel ist ein stochastischer Prozess
+			\todo{überarbeiten}
+			\item Normalverteilungsannahme: $g(x, y) ~ N(\mu_t(x, y), \sigma_t^2 (x, y))$
+			\item Initialisierung
+			\item Aktualisierung
+			\item $|g(x,y,t) - \mu_t(x,y,t)| > T$ $\rightarrow$ Änderung
+			\newline z.B. $T = 2 \sigma$ $\rightarrow$ Percentiles (95\%)
+		\end{itemize}
+	
+		\item Problem: Eine Normalverteilung pro Pixel?
+		\begin{itemize}
+			\item Pixel schwanken zwischen 2 Werten (Bäume, Diskretisierungsfehler)
+			\item Modellierung soll das auffangen $\rightarrow$ \textbf{Gauß-Mischverteilung}
+			\item Verteilungsannahme
+			\newline
+			\item Wie schätze ich die Mischverteilung?
+			\newline Stauffer-Grimson-Verfahren
+			\item Wann liegt bei einem Pixel eine Änderung vor?
+		\end{itemize}
+	
+		\item Modellierung jedes Pixels durch Gauß-Mischverteilung $\rightarrow$ Stauffer-Grimson-Verfahren
+		\begin{itemize}
+			\item Annahme: Modell mit K Komponenten vorhanden
+			\item Gewichtung: Gaußkomponenten, welche Messwert erklärt $\rightarrow$ Match, diese Gaußkomponente wird höher gewichtet, bzw. die anderen Gaußkomponenten werden weniger gewichtet ("heruntergedrückt").
+			\item Gleitender Mittelwert und Standardabweichung
+			\item Wahrscheinlichkeit zur Verteilung zu gehören fließt in Verschiebung des Mittelwertes mit ein
+			\item Kein Match? $\rightarrow$ Komponente mit kleinstem Gewicht löschen + neue Komponente initialisieren mit hoher Varianz
+			\newline
+			\item Annahme: Hintergrund stellt Anteil $T$ aller Messungen
+			\item Hohes Gewicht: Komponente war oft ein Match $\rightarrow$ könnte Hintergrund sein
+			\item Geringe Varianz: Grauwerte in engem Bereich sehr häufig $\rightarrow$ sichere Messung
+			\item Sortieren von Komponenten absteigend
+			\newline Erste B Komponenten mit Summe der Gewichte > T $\rightarrow$ Hintergrund
+			\newline $B = argmin_b(\sum_{i=0}^{b} w_{i,t}) > T$
+			\newline $\rightarrow$ z.B. 80\% der Welt (T = 0.8), (Gewichte summieren auf 1)
+			\item Ist der aktuelle Meßwert ein Match zu einer dieser Verteilungen? $\rightarrow$ gehört er zum Hintergrund
+			\newline Sonst: Vordergrund (Änderung, Bewegung…..)
+			\item T fest gewählt (nicht zeit- oder positionsadaptiv $\rightarrow$ wäre eine Erweiterungsmöglichkeit)
+			\newline
+			\item Keine Schweifbildung von Autos
+			\item Bäume / bewegente Objekte sind immernoch markiert
+			\item Aufflackern von Bild (unsicher warum, möglicherweise gegen Kamera gestoßen)
+		\end{itemize}
+	
+		\item Bewegte Kamera $\rightarrow$ bisherige Ansätze nicht geeignet, da Annahme ein Pixel wird auf einen physikalischen Punkt abgebildet falsch ist. Physikalischer Punkt ändert sich ständig.
+		
+		\item Raum-Zeit-basierte Verfahren
+		\item Zeitliches Frequenzverhalten eines Pixels
+		\newline Hohe Frequenzen: Rauschen, Niedrige Frequenzen: langfristige Hintergrundänderungen, Mittlere Frequenzen: Bewegungen in Szene
+		\item MotionOrbits: Es wird nicht nur 1 Pixel in der Zeit betrachtet, sondern auch ein Ortsumfeld dieses Pixels
+		
+		\item Bildgradient in x-Richtung berechnen: $|g_{x-1}|g_x|$ $\rightarrow$ $g_x - g_{x-1}$
+		
+		\item Verfahrensgruppen
+		\begin{itemize}
+			\item Detektion von Änderungen
+			\item Pixelbasierte Verfahren
+			\item Nachbereitung möglich
+			\item Statische Kamera
+		\end{itemize}
+	
+		\item \textcolor{red}{Bewertung übersprungen wegen Zeitmangel}
+		\item \textcolor{red}{Für Prüfung: Zusammenfassungs-/Selbsttest-Fragen anschauen, Prüfungsprotokole durchschauen}
+		
+	\end{itemize}
+	\newpage
+	
+	\section{Bewegungsbestimmung I, Korrespondenzverfahren}
+	
+	\begin{itemize}
+		\item Bisher: (siehe Folie 2)
+		\begin{itemize}
+			\item Was ist Bildfolgenauswertung?
+			\item Wie gelangen Bildfolgen in den Rechner \& wie werden sie repräsentiert?
+			\item Welche Probleme \& Verfahren werden im Laufe der Vorlesung betrachtet?\newline
+
+			\item Was ist Änderungsbasierte Bewegungsdetektion?
+			\item Welche Verfahrensgruppen gibt es?
+			\item Wie können die Verfahren relativ bewertet werden?\newline
+			
+			\item[$\rightarrow$] pixelbasiert (ggf. mit kleiner Umgebung)
+			\item[$\rightarrow$] Binärentscheidung (Bewegung/ keine Bewegung)
+		\end{itemize}
+	
+		\item Oft Binärentscheidung nicht ausreichend
+		\begin{itemize}
+			\item Bewegte Kamera (Fahrzeug, Flugzeug, ...)
+			\item Image Mosaicing
+			\item SfM: Structure from Motion
+			\item SLAm
+			\item Aktionserkennung
+			\item Video Coding, Video Manipulation, ...
+			\item[$\rightarrow$] braucht Schätzung von Bewegung, Richtung und Betrag
+		\end{itemize}
+	
+		\item Bewegungsdetektion (binär) vs. Bewegungsschätzung ((ortsabhängige) Bildverschiebung (u,v))
+		
+		\item Bewegungsschätzung: Sehr naive Idee
+		\begin{itemize}
+			\item Idee: Suche gleichen Grauwert
+			\item Naiv, weil:
+			\newline Grauwert wird sehr oft vorkommen
+			\newline ursprünglicher Grauwert unterliegt Veränderungen (Rauschen, Beleuchtung, (Form, etc.))
+		\end{itemize}
+	
+		\item Idee: Suchmasken benutzen
+		\begin{itemize}
+			\item extrahiere Umgebung
+			\item beschreibe Umgebung (Grauwerte, Deskriptor (SIFT, SURF, etc.))
+			\item finde ähnliche Umgebung um (x-u, y-v, t-d) $\rightarrow$ Suche über (u,v)
+			\item Benötigt ausreichende Bildstruktur (Was ist das?)
+			\item in homogenen Bereichen eher mehrdeutig
+		\end{itemize}
+	
+		\item Bildstrukturen
+		\begin{itemize}
+			\item Maß für lokale Eindeutigkeit einer Bildsturktur
+			\item Veränderung des Fensterinhalts, wenn Fenster leicht bewegt wird
+			\item 3 Arten:
+			\begin{itemize}
+				\item homogen: keine Veränderung in alle Richtungen
+				\item Kante: keine Veränderung entlang der Kante
+				\item Ecke: große Veränderung in alle Richtungen
+			\end{itemize}
+		
+			\item Vorgehen (Folie 9)
+			\begin{itemize}
+				\item Energieterm (Abweichung): $E(u,v) = \sum \limits_{(x,y) \in W} (g(x+u,y+v) - g(x,y))^2$
+				\newline $\rightarrow$ eigentlich müssten alle (u,v) durchgegangen werden
+				\item Vergleiche Pixelwerte
+				\item Taylor-Entwicklung zur Berechnung von $g(x+u, y+v)$
+				\item Beide Eigenwerte müssen groß sein an der Stelle $\rightarrow$ Veränderung in beide Richtungen signifikant
+				\item $\rightarrow$ Harris-Cornerness-Function: $f = det(H) - \kappa * trace(H)^2$
+				\newline Kantendetektor (nur größerer Eigenwert)
+			\end{itemize}
+		
+		\end{itemize}
+		
+		\item Invarianz
+		\begin{itemize}
+			\item Hauptaufgabe: Korrespondenz zwischen 2 Bildern finden
+			\item bisher: funktioniert bei kleinen Bewegungen
+			\item Was passiert bei: großen Bewegungen (Kamera, sichtbare Objekte), großer zeitlicher Differenz, Rotation, Helligkeit, Skalierung?
+			\item Harris-Cornerness-Function:
+			\begin{itemize}
+				\item Rotationsinvariant (Eigenvektoren werden immer neu berechnet)
+				\item NICHT Skalierungsinvariant: da Fenstergröße konstant gewählt und damit der Punkt sich verschieben kann innerhalb des Bildes (z.B. in Ecke rein, nicht mehr an Kante)
+				
+			\end{itemize}
+		\end{itemize}
+	
+		\item Automatic Scale Selection (Grundlage für SIFT)
+		\begin{itemize}
+			\item Auflösungspyramide mit unterschiedlichen Auflösungsstufen
+			\item Wenn Glück: Maxiumum für Funktion auf einer Auflösungsebene (bezogen auf charakteristische Funktion)
+			\item Normalize: Rescale to fixed size
+			\item Finde markante Punkte (1 Maximum, andere wegschmeißen) $\rightarrow$ markant in einer Skalierung
+			\newline $\rightarrow$ Kandidaten für Matching finden
+		\end{itemize}
+	
+		\item Bisher: Detektion von geeigneten Kandidaten (markanten Punkten), nächste Frage: Wie matchen wir diese zwischen 2 Bildern?
+		
+		\item Folie 31 + 32
+		\item 
+		
+		\item SIFT: Scale Invariant Feature Transform
+		\begin{itemize}
+			\item Gradientenrichtungshistogramm (Orientation histogram)
+			\item Zusammenfassen (weniger empfindliche gegen Rauschen): aus 16x16, zu 4x4 zusammenfassen
+			\item Sehr robust (Blickrichtungsänderungen, signifikante Beleuchtungsänderungen (halbe Beleuchtung kein Problem, Schlagschatten problematisch)), schnell \& effizient (real-time)
+			\item Vergleich zwischen SIFT Deskriptoren (Orientierung des größten Gradienten (Hauptgradientenrichtung) normalisieren, dann vergleichen) $\rightarrow$ Rotationsinvariant (von Natur aus ist SIFT nicht rotationsinvariant, nur durch Normalisierung rotationsinvariant)
+		\end{itemize}
+	
+		\item Zusammenfassung
+		\begin{itemize}
+			\item Was ist Bewegungsschätzung?
+			\item Antwort auf die Frage: Wo kommt dieser Grauwert her?
+			\item Gegensatz zur Änderungsdetektion (Änderung/ keine Änderung)
+			\item Schätzt (im besten Fall) Richtung und berag einer lokalen Bildverschiebung\newline
+			
+			\item Kann die lokale Bildverschiebung überall geschätzt werden?
+			\item Maß für die Eindeutigkeit einer Bildstruktur (im Bezug auf Bewegung)
+			\item Letztlich: Blendenproblem
+			\item Was passiert bei starken Bewegungen / großen Zeitabständen? $\rightarrow$ Invarianz\newline
+			
+			\item Wie \& wozu?
+			\item Bisher: Korrespondenzfindung an eindeutigen Punkten $\rightarrow$ Feature Mapping
+			\item Andere Ansätze
+			\item Anwendungen
+		\end{itemize}
+		
+		\item Fragen:
+		\newline Wie kann die Verschiebung (u,v) geschätzt werden?
+		\newline Welche Verfahren gibt es hierzu?
+		\newline Kann (u,v) an jeder Bildposition bestimmt werden?
+	\end{itemize}
+	\newpage
+	
+
+	\section{Bewegungsbestimmung II, Optischer Fluss}
+	
+	\begin{itemize}
+		\item Bisher: \todo{Folie 5 übertragen}
+		\begin{itemize}
+			\item 
+			\item 
+			\item 
+			\item 
+			\item 
+		\end{itemize}
+	
+		\item Dichte Schätzung der Bewegung wird benötigt (bisher noch nicht möglich)
+		\begin{itemize}
+			\item für Video Kompression
+			\item für Video Manipulation (bullet time (Effekt in Matrix-Film))
+			\newline \todo{Nachschauen, wie berechnet wird, Bild von Tafel} %(2023_05_09_Chapter_04.jpg)
+			\item für Bildfolgenauswertungsverfahren (bewegungsbasierte Segmentierung, ...)
+		\end{itemize}
+		
+		\item Heute:
+		\begin{itemize}
+			\item Genauere Betrachtung der "Verschiebungsgleichung" vom letzten Mal
+			\item Woher kommen die Einschränkungen?
+			\item Wie (wenn überhaupt) kann man sie beseitigen?
+		\end{itemize}
+		
+		\item Wiederholung: "Verscheibungsgleichung" ...
+		\item 
+		\item $\rightarrow$ Optischer-Fluss-Beschränkungsgleichung (OFCE)
+		
+		\item Wie muss ich Umgebung verschieben, damit Inhalt der Umgebung möglichst gleich bleibt?
+		
+		\item Optischer Fluss: Grundproblem
+		\begin{itemize}
+			\item Def. Gerade im Raum
+			\item Theoretisch alle Punkte auf Gerade
+			\item Durch Bild nur "Normalfluss" bestimmbar
+			\item Grundlage: "Kein Grauwert geht verloren, der muss im nächsten Bild sein"
+			\newline $\rightarrow$ nicht ganz korrekt
+			\item Jedes (u,v)-Paar auf Gleichung ist Lösung (nicht eindeutig bestimmbar)
+		\end{itemize}
+	
+		\item Blendenproblem
+		\begin{itemize}
+			\item Optischer Fluss: Eine Gleichung für 2 Unbekannte
+			\item Bewegung sieht je nach Betrachtungsumgebung unterschiedlich aus.
+			\item Bei lokaler Betrachtung kann immer nur derjenige Anteil einer Bewegung bestimmt werden, welcher senkrecht zu Bildstruktur erfolgt.
+			\item Mögliche Lösung: Betrachtung einer kleinen (aber nicht zu kleinen) Umgebung
+		\end{itemize}
+		
+		\item Optischer Fluss: Lokale Glattheitsforderung
+		\begin{itemize}
+			\item Annahme: Optischer Fluss ist in kleiner Umgebung konstant
+			\newline $\rightarrow$ Hilfsbrücke, um Wert korrekt ausrechnen zu können (sonst zu viele Unbekannte für Gleichung)
+			\item Kleine Umgebung (z.B. 3x3 bzw. 5x5 um mehr zu mitteln)
+			\item Durch Mitelln des OF Umgebung betrachten und näher an korrektem Wert zu sein.
+			\item Minimierung: Ableitung = 0
+			\item Matrix Invertierbar, wenn zwei von 0 verschiedene Eigenwerte: homogen (Rang 0) vs. Kante (Rang 1) vs. Ecke (Rang 2) (Folie 15)
+			\item Große Eigenwerte: Eindeutigkeit (OF sicher), kleine (gegen 0 gehende) Eigenwerte: unsicherer OF
+			
+			
+			\item 
+		\end{itemize}
+		
+		\item Strutkturtensor $H =$ Matrix
+		Kante: großer + kleiner Eigenwert (großer Eigenvektor in Richtung großer Veränderung)
+		Ellipse um Eigenvektoren, nicht geeignet, um OF zu berechnen
+		ABER $H^{-1}$ (gedrehte Ellipse) ist geeignet
+		
+		\item 3x3 Umgebung = Blockfilter auf Bild
+		Auch Kreis möglich und dann Gaußverteilung drauf legen (als Filter), Zentrale Pixel gehen mehr ein als weiter entferntere Pixel $\rightarrow$ Glättung, Rauschen entfernen
+		
+		\item Faltungsmaske adaptiv durch Anpassung an Grauwertumgebung um Pixel.
+		Isotrope Faltungsmaske $\rightarrow$ Bestimmung Gradienten $\rightarrow$ Bestimmung Faltungsmaske $\rightarrow$ Bestimmung Gradienten $\rightarrow$ ... (Iterative Verbesserung)
+		
+		
+		\item Globale Glattheitsforderung
+		\begin{itemize}
+			\item Ansatz: Zusatzbedingungen
+			\item Forderung globale Glattheit auf gesamtem Bild des OF
+			\item Hinzufügen Bestrafungsterm (Veränderung des u,v über gesamtem Bild) gewichtet mit $\alpha$
+			\item Bestimmung für Pixel (u,v): nutze alle Pixel (noch nicht ausgerechnet) $\rightarrow$ daher iterativ
+			\newline Initialisieren: Nullumgebung, Zufallswerte, Werte von lokaler Glattheitsforderung
+			\item Iteratives Vorgehen
+		\end{itemize}
+		
+		\item Vorteile / Nachteile Lokale vs. Globale Glatheitsforderung
+		\begin{itemize}
+			\item \todo{Folie 17}
+			\item Lokale Glattheit (Lucas \& Kanade 1981)
+			\begin{itemize}
+				\item[+] lokal lösbar
+				\item[+] stabil gegen Störungen
+				\item[-] letztlich kein dichter OF (wg. Matrixinvertierung) 
+				\item[+] aber wenigstens Maß für die Korrektheit des OF (siehe letztes Mal, HCR)
+			\end{itemize}
+			
+			\item Globale Glattheit (Horn \& Schunck 1981)
+			\begin{itemize}
+				\item[+] dichter OF - überall bestimmbar
+				\item[+] filling-in-effect: Information wird in homogene Bereiche "transportiert"
+				\item[-] anfällig gegen Störungen (werden auch weit verteilt)
+				\item[-] Kein Maß für die Zuverlässigkeit eines OF-Vektors
+			\end{itemize}
+		
+			\item Kombinationen möglich
+			
+		\end{itemize}
+		
+		\item Zusammenfassung
+		\begin{itemize}
+			\item \todo{Zusammenfassung einfügen (Folie 19)}
+		\end{itemize}
+	\end{itemize}
+	\newpage
+	
+	
+	\section{Mosaikbildung und Bildstabilisierung}
+	
+	\begin{itemize}
+		\item 
+	\end{itemize}
+	
+	
+	\section{Struktur aus Bewegung}
+	
+	\begin{itemize}
+		\item 
+	\end{itemize}
+	
+	
+	\section{Objektdetektion}
+	
+	\begin{itemize}
+		\item 
+	\end{itemize}
+	
+	
+	\section{Objektverfolgung I}
+	
+	\begin{itemize}
+		\item 
+	\end{itemize}
+	
+	
+	\section{Objektverfolgung II - Diskussion am Beispiel}
+	
+	\begin{itemize}
+		\item 
+	\end{itemize}
+	
+	
+	\section{Objektverfolgung III - Online-Tracking}
+	
+	\begin{itemize}
+		\item 
+	\end{itemize}
+	
+	
+	\section{Von 2D-Spuren zu 3D-Bewegungen}
+	
+	\begin{itemize}
+		\item 
+	\end{itemize}
+	
+	
+	\section{Verbegrifflichung und Aktionserkennung}
+	
+	\begin{itemize}
+		\item 
+	\end{itemize}
+	
+	
+	\section{Verhaltensbasierte Bewegungsprädiktion}
+	
+	\begin{itemize}
+		\item 
+	\end{itemize}
+	
+	
+	\section{Vorlesung Mitarbeiter}
+	
+	\begin{itemize}
+		\item 
+	\end{itemize}
+	
+	
+\end{document}
