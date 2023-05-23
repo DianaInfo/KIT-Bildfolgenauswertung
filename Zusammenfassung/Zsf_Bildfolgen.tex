@@ -627,16 +627,231 @@
 	\section{Mosaikbildung und Bildstabilisierung}
 	
 	\begin{itemize}
+		\item Was bisher geschah ... (Folie 2)
+		\begin{itemize}
+			\item 1. Vorlesung: Einführung \& Überblick
+			\item 2. Vorlesung: Änderungsbasierte Bewegungsdetektion
+			\item 3. / 4. Vorlesung: Bewegungsschätzung
+			\begin{itemize}
+				\item Bestimmung von Richtung \& Betrag einer Bewegung im Bild
+				\item Korrespondenzverfahren: an ausgewählten Bildpunkten
+				\item Optischer Fluss: an allen Bildpunkten
+			\end{itemize}
+			
+		\end{itemize}
+		
+		\item Heute (Folie 2): Nutzung von Bewegungsschätzungen für
+		\begin{itemize}
+			\item Bildstabilisierung
+			\item Panoramabilderzeugung
+			\item Erzeugung Dynamischer Modelle
+			\item 3D-Rekonstruktion aus Bewegung
+		\end{itemize}
+		
+		\item Bildstabilisierung
+		\begin{itemize}
+			\item Änderungen (Bewegungen) trotz Kamerabewegung detektieren?
+			\item Kompensation der Kamerabewegung $\rightarrow$ Änderungsdetektion
+			\item Wie sieht die Abbildung zwischen 2 Aufnahmen aus?
+		\end{itemize}
+		
+		\item Image Mosaics
+		\begin{itemize}
+			\item Goal: Stitch together several images into a seamless composite
+		\end{itemize}
+		
+		\item Dynamische Mosaike
+		\begin{itemize}
+			\item Erzeugung bewegter Panoramen aus Videoschwenks
+			\item Ergebnis: Video
+			\item Völlig anderer Ansatz (Wieso?)
+		\end{itemize}
+		
+		\item Grundproblem: image alignment
+		\begin{itemize}
+			\item Abbildung, welche gefundene Korrespondenzen zwischen 2 Bildern erklärt
+			\item 2 Ansätze:
+			\begin{enumerate}
+				\item Direct (pixel-based) alignment
+				\begin{itemize}
+					\item search for alignment where most pixels agree (OF!)
+				\end{itemize}
+				\item Feature-based alignment
+				\begin{itemize}
+					\item search for alginment where extracted features agree (Korrespondenzproblem)
+					\item can be verified using pixel-based alignment (Rückprojektionsfehler)
+				\end{itemize}
+			\end{enumerate}
+		\end{itemize}
+		
+		\item Parametric (global) alignment
+		\begin{itemize}
+			\item translation, rotation, aspect, affine, perspective
+			\item Transformation $T$: $p' = T(p)$
+			\item T global: unabhängig von Punkt im Bild, für alle gültig
+			\item T repräsentiert als Matrix: \todo{Add matrices description}\newline
+			
+			\item Scaling
+			\begin{itemize}
+				\item multiplying each of its component by a scalar
+				\item Uniform scaling: scalar same for all components (axes)
+				\item Non-uniform scaling: different scalars per component
+				\item Scaling operation (Folie 12)
+			\end{itemize}
+			
+			\item transformations representable with a 2x2 matrix (Folie 13 + 14)
+			\begin{itemize}
+				\item 2D Scaling
+				\item 2D Rotate around (0,0)
+				\item 2D Shear
+				\item 2D Mirror about Y-axis
+				\item 2D Mirror over (0,0)
+				\item 2D Translation? $\rightarrow$ NO
+				\item[$\rightarrow$] only linear 2D transformations:
+				\newline Linear transformations: combinations of scale, rotation, shear, mirror
+			\end{itemize}
+		\end{itemize}
+		
+		\item Homogeneous coordinates (Folie 16)
+		\begin{itemize}
+			\item 
+		\end{itemize}
+		
+		\item Affine transformations (Folie 20)
+		\begin{itemize}
+			\item 
+		\end{itemize}
+		
+		\item Transformation Models (Folie 21)
+		\begin{itemize}
+			\item 
+		\end{itemize}
+		
+		\item Least Squares
+		\item 
+		\item 
+		\item Idee: Schätze Transformation
+		\begin{itemize}
+			\item Korrespondenzpunkten (mit ggf. Fehlern, Rauschen) definiert
+			\item Suche Transformationsmatrix
+			\item Ax = b Umformung mit x als Unbekannte (a-f)
+			\item Transfomration auf Basis der Korrespondenzpunkte schätzen durch Mapping
+		\end{itemize}
+		\item 
+		\item RANSAC
+		\item 
+		\item 
+		\item Zusammenfassung
+		\item 
+		\item Dynamisches Mosaik
+		\item 
 		\item 
 	\end{itemize}
-	
+	\newpage
 	
 	\section{Struktur aus Bewegung}
 	
 	\begin{itemize}
-		\item 
-	\end{itemize}
+		\item Heute
+		\begin{itemize}
+			\item SLAM: simultaneous localization and mapping
+			\item MVS: Multi-view Stereo
+			\item Wie kann man auf Struktur der Szene schließen?
+		\end{itemize}
 	
+		\item Projection
+		\begin{itemize}
+			\item Structure and depth inherently ambiguous from single views
+			\item Forced Perspective (z.B. Pisa)
+			\item Dimensionality Reduction (3D to 2D)
+			\item Verloren: Winkel + Distanzen (Längen)
+			\newline parrallele Linien $\rightarrow$ nicht mehr parallel
+			\item properties: (Folie 8)
+			\begin{itemize}
+				\item Many-to-one \todo{einfügen}
+				\item Punkte $\rightarrow$ Punkte
+				\item Linien $\rightarrow$ Linien (colinearity preserved)
+				\newline focal point \todo{einfügen}
+				\item Ebenen $\rightarrow$ Ebenen (or half-planes)
+				\newline focal point
+			\end{itemize}
+		\end{itemize}
+	
+		\item Model projection
+		\begin{itemize}
+			\item coordinate system: pinhole camera model (approximation)
+			\begin{itemize}
+				\item \todo{describe coordinate system}
+			\end{itemize}
+		
+			\item Projection equations \todo{einfügen}
+			\item NOT linear projection (division by z)
+			\newline $\rightarrow$ Homogene Koordinaten
+			\newline \todo{describe idea, conversion}
+			\item Perspective Projection
+			\begin{itemize}
+				\item projection matrix \todo{einfügen}
+			\end{itemize}
+		
+			\item 
+			\item 
+		\end{itemize}
+		
+		\item Distortion (nicht optimal)
+		\begin{itemize}
+			\item Radial distortion of image (through camera (not optimal))
+			\item caused by imperfect lenses
+			\item Punkte basierend auf Entfernung von Bildhauptpunkt werden unterschiedlich abgebildet
+			\item deviation most noticable at ray passing through edge of lense
+			\item pin cushion, barrel\newline
+
+			\item model lens distortion
+			\newline \todo{einfügen Gleichungen Modellierung}\newline
+			\newline $\kappa$ als kameraspezifische Parameter
+			
+			\item Achtung: Bildmittelpunkt = (0,0) in Bildkoordinaten
+			\item \todo{einfügen Bilder Handy}\newline
+			
+			\item Correcting radial distortions
+			\newline Mehr Pixel $\rightarrow$ Interpolation, Glättung
+		\end{itemize}
+	
+		\item Camera Parameters
+		\begin{itemize}
+			\item 2 important coordinate systems: World / Camera coordinate systems
+			\newline $\rightarrow$ muss (willkürlich) gewählt werden
+			\item \todo{How to transform from one coordinate system to another? Translation, Rotation}
+		\end{itemize}
+	
+		\item Perspective projection
+		\begin{itemize}
+			\item Scherung (s: skew): Kamerachip sitzt nicht mit 90° $\rightarrow$ Verzerrung (Schiefe)
+			\item Kameramatrix K (intrinsics)
+		\end{itemize}
+	
+		\item Structure from Motion - Grundidee
+		\begin{itemize}
+			\item \todo{Beschreiben}: Korrespondenz von Punkten, Mapping auf 3D Weltkoordinaten
+		\end{itemize}
+	
+		\item Strutcture from motion - Solving
+		\begin{itemize}
+			\item Minimizing $g$ difficult: non-linearity (rotations, perspective division)
+			\item many techniques use NLLS (non-linear least-squares) optimization (bundle adjustment)
+			\item Levenberg-Marquardt (common algorithm)
+			\item 
+		\end{itemize}
+	
+		\item SLAM: eine Kamera bewegt sich und Aufnahmen werden für Strukturextraktion verwendet
+		\newline SfM für bewegte Kamera
+		\item 
+		\item Zusammenfassung
+		\begin{itemize}
+			\item \todo{einfügen}
+		\end{itemize}
+	
+	\end{itemize}
+	\newpage
 	
 	\section{Objektdetektion}
 	
