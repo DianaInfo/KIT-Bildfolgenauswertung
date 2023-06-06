@@ -856,9 +856,129 @@
 	\section{Objektdetektion}
 	
 	\begin{itemize}
-		\item 
+		\item bisher: mathematische Vorgehensweise, Bildsignal
+		\item Heute
+		\begin{itemize}
+			\item Objektdetektion
+			\item Was macht ein Objekt aus?
+			\newline Explizit vs. implizit
+			\item Warum sollte ich das entdecken wollen?
+		\end{itemize}
+		
+		\item Warum sollte man Objekte detektieren wollen?
+		\begin{itemize}
+			\item Bsp. Detektion treibender Seeminen
+			\newline Zweck: Sicherheit
+			\item Videoüberwachung:
+			\begin{itemize}
+				\item Alarmierung falls Personen Gelände betreten (Objektdetektion) vs. Alarmierung bei Bewegung (bzw. Änderung) (Bewegungsdetektion)
+				\item[$\rightarrow$] Objektdetektion: Aussagen über betrachtete Szene nicht Bildsignal
+			\end{itemize}
+			
+		\end{itemize}
+		
+		\item What is object recognition?
+		\begin{itemize}
+			\item more than object detection
+			\item classification: is this a X (class)?
+			\item detection: are there X?
+			\item identification: is this the X (specific)?
+		\end{itemize}
+		
+		\item Naive idea: Object recognition by template matching
+		\begin{itemize}
+			\item Reference foto of chair, 
+			\item find chair (reference foto) in image
+			\item output: normalized correlation
+			\item problem: chair not exactly like reference foto
+			\item[$\rightarrow$] simple template matching does not work
+			\item 2 Gründe: Vergleichsoperation oder Objektrepräsentation nicht gut genug
+		\end{itemize}
+		
+		\item Artikulation
+		\newline Intraklassenvariation (Ansichtswinkel, Entfernung, Größe, Ausführung, Farbe, Posenvariationen)
+		
+		\item Bag of Words
+		\begin{itemize}
+			\item Idee: aus Texterkennung (auch "visual words")
+			\item Objekt (Referenzbild) wird unterteilt in kleinere Teile, welche zusammengesetz das Referenzbils bilden (nicht zwingend vollständig)
+			\item Woraus besteht Objektmodell? (Häufigkeit von Vorkommen von Teilausschnitten)
+			\item Learning: feature detection \& representation + object representation (category models and/or classifiers)
+			\newline $\rightarrow$ build codewords dictionary
+			\newline recognition: feature detection \& representation + category decision
+		\end{itemize}
+		
+		\item Feature detection and representation
+		\begin{itemize}
+			\item regular grid
+			\item interest point detector
+			\item other methods: random sampling, segmentation based patches
+			\item Detect patches $\rightarrow$ normalize patch $\rightarrow$ compute SIFT descriptor
+			\item Codewords dictionary formation:
+			\newline einen Repräsentanten merken als Codewort
+			\item Bild repräsentiert als Histogramm von Codewörtern
+		\end{itemize}
+		
+		\item Invarianz:
+		\begin{itemize}
+			\item scale + rotation
+			\item SIFT Merkmale invariant
+			\item Histogramme: invariant\newline
+			
+			\item occlusion: implicit
+			\item translation: Ort von Merkmalen nicht relevant (auch nicht instance-aware)
+		\end{itemize}
+		
+		\item Implicit Shape Model
+		\begin{itemize}
+			\item Kodiert Objekte als Sammlung von Bildmerkmalen (wie Bag of Words)
+			\item Zusätzlich räumlich Anordnung der Merkmale im Modell
+			\item Training: Feature extraction + Clustering = codewords
+			\item Unterschied zu Bag of Words:
+			\newline Räumlicher Versatz (offset) zum Objektzentrum (merken im Codebuch) + Rotation (initial nicht gemacht, daher nicht rotationsinvariant) merken
+			\item nicht rotationsinvariant, nicht skalierungsinvarinat (offset in Pixeln)
+			\newline $\rightarrow$ durch SIFT kann es rotations und skalierungsinvariant gemacht werden
+			\item Matching mit Codebuch
+			\item Objektdetektion: Voting (Votingraum 3D x,y, scale) für Objektmittelpunkt durch gematchte Codebucheinträge
+			\item Suche nach Häufungspunkten (Maxima, Hypothesen) (Schwellenwerte)
+			\item \todo{Ablauf von Implicit Shape Model aufschreiben}
+		\end{itemize}
+		
+		\item Objektdetektion: Ergebnis
+		\begin{itemize}
+			\item Detektionsverfahren: liefern pro Bild eine Menge von Objekthypothesen
+			\item Hypothese: Bildposition des Objektzentrums, Zuverlässigkeit der Hypothesen, Menge von Bildmerkmalen (SFIT) für Hypothese abgestimmt $\rightarrow$ wichtig für Körperteilklassifikation
+		\end{itemize}
+		
+		\item Objektdetektion: Hypothesen
+		\begin{itemize}
+			\item \todo{einfügen}
+		\end{itemize}
+		
+		\item Infrarot: Bewegte Kamera
+		\begin{itemize}
+			\item nahe Personen nicht mehr erkannt
+			\newline Vorgae durch Skalierungsvorgaben von SIFT
+			\item Beine als Menschen detektiert
+			\item Flackern von Detektionen
+			\item Einzelbilddetektion
+		\end{itemize}
+		
+		\item Körperteil Klassifikation
+		\begin{itemize}
+			\item Annotation von Codebucheinträgen
+			\item semantische Zuordnung von Clustern\newline
+			
+			\item Annotation von Trainingsbildern
+		\end{itemize}
+		
+		\item Zusammenfassung
+		\begin{itemize}
+			\item \todo{einfügen}
+		\end{itemize}
+		
 	\end{itemize}
-	
+	\newpage
 	
 	\section{Objektverfolgung I}
 	
