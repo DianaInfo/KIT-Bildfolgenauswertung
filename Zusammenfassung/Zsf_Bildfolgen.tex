@@ -983,9 +983,85 @@
 	\section{Objektverfolgung I}
 	
 	\begin{itemize}
-		\item 
+		\item bisher:
+		\begin{itemize}
+			\item \todo{einfügen}
+		\end{itemize}
+		
+		\item Heute: Objektverfolgung (+ nächstes Mal)
+		\begin{itemize}
+			\item Wozu?
+			\item Welche Ansätze gibt es?
+			\item Welche Vorteile/Nachteile bestehen?
+			\item Diskussion an Beispielen
+		\end{itemize}
+		
+		\item Objektverfolgung
+		\begin{itemize}
+			\item Flackern verhindern
+			\item von Einzelbildern zu konsistenten Bildtrajektorien
+			\item Gleiches Objekt $\rightarrow$ gleiche ID im System
+			\item Trajektorien im Bild entspricht (projizierter) Objektbewegung in der Szene
+		\end{itemize}
+		
+		\item Detection vs. Tracking
+		\begin{itemize}
+			\item Tracking-by-detection: detect the object independently in each frame and can record its position over time, e.g., based on blob’s centroid or detection window coordinates
+			\begin{itemize}
+				\item Spacetime Trajectory Estimation
+				\item Punkt stellt Objekt in Zeitverlauf dar (Folie 9)
+				\item Suchkegel zur Identifikation von Trajektorienverlauf
+				\item Adaptierter Suchverlauf: Erwartung von konstanter Bewegung (Erwartungswert im Zentrum der Kreisscheibe)
+				\item Iteration: Wiederhole Suche
+				\item Trajektorienauswahl (beste Erklärung für Detektion): Hypothesen
+				\item Kann in Zukunft erweitert werden
+			\end{itemize}
+			
+			\item Detection-by-tracking: (recursive tracking, filtering, model-based tracking, ...)
+			\begin{itemize}
+				\item Tracking with dynamics
+				\item image measurement of estimated object position + position prediction by dynamics (expectation of object's motion pattern)
+				\item Dynamics model: predict where object will occure
+				\item Intent: restrict search (do less work), improved estimates (measurement noise tempered by smooth dynamics priors)
+				\item Assumptions: continuous motion patterns
+				\newline \todo{add assumptions (Folie 14)}
+			\end{itemize}
+			
+			\item Tracking as inference
+			\begin{itemize}
+				\item Vollständiger Zustand ist nicht bekannt
+				\newline hidden state X: true parameters we care about
+				\item measurement Y: noisy observation, results from underlying state (X)
+				\item state vs. observation
+				\item goal: recover most likely state $X_t$ given
+				\newline all observations seen so far
+				\newline knowledge about dynamics of state transitions
+				\item Independence assumption: Markov property (only last state relevant)
+				\newline measurement at time t only dependens on current state in time t
+				\item \textcolor{red}{periodische Ereignisse sind problematisch mit Markov assumption, warum dennoch? $\rightarrow$ Rechenzeit einsparen (längere Historie dauert länger) + funktioniert}
+				\item Prediction: $P(X_t | y_0, ..., y_{t-1})$ + Correction: $P(X_t | y_0, ..., y_t)$ 
+			\end{itemize}
+			
+		\end{itemize}
+		
+		\item Linear dynamic model
+		\begin{itemize}
+			\item a priori knowledge about system dynamics model (evolution of state over time) + measurement model (at every time step: noisy measurement of state)
+		\end{itemize}
+		
+		\item Kalman Filter
+		\begin{itemize}
+			\item tracking linear dynamical models in Gaussian noise
+			\item predicted/ corrected state distributions are Gaussian (maintain mean + covariance), calculations easy
+			\item Predict (next state, time update) + correct (measurement update)
+			\item Kalman Cycle (Folie 26)
+			\item Kalman Filter kann sich nicht selbst überwachen (Dynamic Model, Messmodel, Messcovarianz)
+		\end{itemize}
+		
+		\item \todo{restliche Folien einfügen}
+		\item Tracking Issues
 	\end{itemize}
-	
+	\newpage
 	
 	\section{Objektverfolgung II - Diskussion am Beispiel}
 	
