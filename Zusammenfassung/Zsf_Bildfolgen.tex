@@ -1066,13 +1066,88 @@
 	\section{Objektverfolgung II - Diskussion am Beispiel}
 	
 	\begin{itemize}
-		\item 
-	\end{itemize}
+		\item Bisher:
+		\begin{itemize}
+			\item[1.] Einführung \& Überblick
+			\item[2.-4.] Bewegungsdetektion \& Bewegungsschätzung
+			\item[5.-6.] Image Alignment \& Struktur aus Bewegung
+			\item[7.] Objektdetektion
+			\item[8.] Objektverfolgung I
+			\newline Wozu Objektverfolgung?
+			\newline Welche Ansätze gibt es?
+			\newline Welche Vor-/Nachteile bestehen?
+		\end{itemize}
 	
+		\item Heute: Objektverfolgung $\rightarrow$ Diskussion am Beispiel
+		
+		\item Erinnerung: Implicit Shape Model
+		\begin{itemize}
+			\item use dedicated object detector that works on single image basis
+			\item use local features to model person appearance
+			\item build codebook based on local image features (SIFT) to detect persons (or other objects)
+			\item \com{ISM: note offset of feature to center (vote for center point)}
+			\item Objektdetektion: Voting
+			\begin{itemize}
+				\item 3D Voting Raum (x,y, scale)
+				\item Maximasuche im Voting Raum
+			\end{itemize}
+			\item \com{Ergebnisse für Personendetektion nicht ausreichend (IoU und OL (overlap) nicht hoch genug)}
+			
+		\end{itemize}
+		
+		\item ISM-Tracking: vom Personendetektor zur Personenverfolgung
+		\begin{itemize}
+			\item Tracking auf Basis des ISM (Erweiterung)
+			\item \todo{andere Punkte hinzufügen}
+			\item 
+			\item 
+		\end{itemize}
+		
+		\item Datenassoziation
+		\begin{itemize}
+			\item Ausgangspunkt: bereits vorhandene Objekthypothesen + aktuelles Eingabebild der Bildfolge
+			\item Prädiktion der Merkmalspositionen für den aktuellen Zeitpunkt auf Basis der Bewegungshistorie (Kalman-Filter)
+			\newline \com{Übertragung von Merkmalen aus letztem Bild in aktuelles Bild und zusammenfügen der Merkmale vom vorherigen und aktuellen Bild}
+			\item Vergleich von Hypothesenmerkmalen imt Bildmerkmalen
+		\end{itemize}
+		
+		\item Kombination im Voting-Raum
+		\begin{itemize}
+			\item Merkmalstypen werden verstärkt (p>1.0), abgeschwächt (p<1.0) oder belassen (p=1.0)
+			\item Gewichtsfaktor bezieht Merkmalstyp mit ein
+		\end{itemize}
+		
+		\item (Folie 19): Koffer wird nicht detektiert, da Schwellenwert höher gesetzt wird
+		\newline möglich, da Merkmale verstärkt werden (sicherer sind)
+		
+		\item ID-Wechsel werden nicht bewertet (Folie 21)
+		\begin{itemize}
+			\item MOTA (Multiple Object Tracking Accuracy, inkl. Identitätswechsel) und MOTP (Multiple Object Tracking Precision, Ort)
+			\item Standardmaß für Bewertung von Tracking Verfahren
+		\end{itemize}
+		
+		\item PETS (Performance Evaluation of Tracking and Surveillance) 06 / 09
+		\item 
+		\item \todo{Rest hinzufügen}
+	\end{itemize}
+	\newpage
 	
 	\section{Objektverfolgung III - Online-Tracking}
 	
 	\begin{itemize}
+		\item Heute: Online-Tracking
+		\begin{itemize}
+			\item Verfolgung "detektieren" immer dasselbe Objekt
+			\item Kann ich das (im Detektor) ausnutzen? Wie?
+		\end{itemize}
+		
+		\item Objektdetektion als Klassifikation $\rightarrow$ funktioniert nicht
+		\item Komplexere Klassifikatoren:
+		\newline BoW (Bag of Words), ISM (Implicit Shape Model), HOG (histogram of oriented gradients)
+		\item 
+		\item on-line tracking: über die Zeit sammeln von immer mehr Trainings Bildern (können auch falsch sein)
+		\item 
+		\item 
 		\item 
 	\end{itemize}
 	
